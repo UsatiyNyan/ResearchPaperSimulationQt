@@ -9,17 +9,20 @@ namespace Ui {
 class SimulationWidget;
 }
 
-class SimulationWidget : public QWidget
-{
-    Q_OBJECT
+class SimulationWidget : public QWidget {
+ Q_OBJECT
 
-public:
+ public:
 
     explicit SimulationWidget(QWidget *parent = nullptr);
 
     ~SimulationWidget() override;
 
     void update_engine(const PhysParams &phys_params);
+
+ signals:
+
+    void uv_pose(const QString &x, const QString &y);
 
  protected:
 

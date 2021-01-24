@@ -12,7 +12,12 @@ class MainWindow : public QMainWindow {
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
+ public slots:
+
+    void uv_pose(const QString &x, const QString &y);
+
  private slots:
+
     void on_pushButton_calculate_clicked();
 
  private:

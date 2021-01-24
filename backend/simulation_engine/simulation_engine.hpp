@@ -13,7 +13,6 @@ using Vector = Point<>;
 
 struct PhysParams {
     struct UV {
-        Point<> pose{};
         Vector thrust{};  // P
         double lift{};    // W
         double length{};

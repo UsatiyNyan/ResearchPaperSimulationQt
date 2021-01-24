@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <QPainter>
+#include <QDebug>
 
 SimulationWidget::SimulationWidget(QWidget *parent) :
     QWidget(parent),
@@ -15,22 +16,29 @@ SimulationWidget::~SimulationWidget() {
 }
 
 void SimulationWidget::paintEvent(QPaintEvent *) {
-    if (engine_) {
-        auto painter = std::make_unique<QPainter>(this);
-        painter->setRenderHint(QPainter::Antialiasing, true);
-        painter->save();
-        painter->translate(width() / 2, 0);
-        painter->setBrush(QBrush{Qt::black, Qt::BrushStyle::Dense3Pattern});
-        painter->setPen(QPen(Qt::black, 2));
-
-        std::vector<QPointF> pts;
-        for (auto &p: engine_->points()) {
-            pts.emplace_back(p.x(), p.y());
-        }
-        painter->drawPolyline(pts.data(), pts.size());
-
-        painter->restore();
+    if (not engine_) {
+        return;
     }
+
+    auto painter = std::make_unique<QPainter>(this);
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->save();
+    painter->translate(width() / 2, height() / 2);
+    painter->setBrush(Qt::black);
+    painter->setPen(QPen(Qt::black, 4));
+
+    std::vector<QPointF> pts;
+    for (auto &p: engine_->points()) {
+        pts.emplace_back(p.x(), p.y());
+    }
+
+    painter->translate(-pts.back().x(), -pts.back().y());
+    painter->drawPolyline(pts.data(), pts.size());
+
+    emit uv_pose(QString::number(-pts.back().x()),
+                 QString::number(-pts.back().y()));
+
+    painter->restore();
 }
 
 void SimulationWidget::update_engine(const PhysParams &phys_params) {
