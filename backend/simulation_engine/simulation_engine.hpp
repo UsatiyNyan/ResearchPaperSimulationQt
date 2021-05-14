@@ -15,7 +15,6 @@ struct PhysParams {
     struct UV {
         Vector thrust{};  // P
         double lift{};    // W
-        double length{};
         double diameter{};
         double speed{};
     };
@@ -35,7 +34,7 @@ class SimulationEngine {
  public:
     explicit SimulationEngine(PhysParams phys_params);
 
-    [[nodiscard]] std::vector<Point<>> points() const;
+    [[nodiscard]] const std::vector<Point<>> &points() const;
 
  private:
 

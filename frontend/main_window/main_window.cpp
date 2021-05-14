@@ -29,9 +29,6 @@ void MainWindow::on_pushButton_calculate_clicked() {
     phys_params.uv.lift = ui_->textEdit_uv_lift->toPlainText().toDouble(&ok);
     if (not ok) { return; }
 
-    phys_params.uv.length = ui_->textEdit_uv_length->toPlainText().toDouble(&ok);
-    if (not ok) { return; }
-
     phys_params.uv.diameter = ui_->textEdit_uv_diameter->toPlainText().toDouble(&ok);
     if (not ok) { return; }
 

@@ -5,8 +5,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 add_library(simulation_widget STATIC
-        simulation_widget/simulation_widget.cpp
-        simulation_widget/simulation_widget.ui)
+        simulation_widget/simulation_widget.cpp)
 target_include_directories(simulation_widget PUBLIC
         simulation_widget)
 target_link_libraries(simulation_widget PUBLIC

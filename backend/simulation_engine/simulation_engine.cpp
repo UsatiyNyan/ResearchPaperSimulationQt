@@ -40,6 +40,6 @@ SimulationEngine::SimulationEngine(PhysParams phys_params) {
     }
 }
 
-std::vector<Point<>> SimulationEngine::points() const {
+const std::vector<Point<>> &SimulationEngine::points() const {
     return points_;
 }

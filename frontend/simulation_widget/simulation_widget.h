@@ -7,18 +7,12 @@
 
 #include "simulation_engine.hpp"
 
-namespace Ui {
-class SimulationWidget;
-}
-
 class SimulationWidget : public QWidget {
  Q_OBJECT
 
  public:
 
     explicit SimulationWidget(QWidget *parent = nullptr);
-
-    ~SimulationWidget() override;
 
     void update_engine(const PhysParams &phys_params);
 
@@ -39,8 +33,6 @@ class SimulationWidget : public QWidget {
     void draw_uv(const std::unique_ptr<QPainter> &painter) const;
 
  private:
-
-    Ui::SimulationWidget *ui_;
     std::optional<SimulationEngine> engine_{};
     double scale_{1};
 };

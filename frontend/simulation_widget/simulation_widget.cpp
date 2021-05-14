@@ -1,17 +1,8 @@
 #include "simulation_widget.h"
-#include "ui_simulation_widget.h"
 
 #include <QDebug>
 
-SimulationWidget::SimulationWidget(QWidget *parent) :
-    QWidget(parent),
-    ui_(new Ui::SimulationWidget) {
-    ui_->setupUi(this);
-}
-
-SimulationWidget::~SimulationWidget() {
-    delete ui_;
-}
+SimulationWidget::SimulationWidget(QWidget *parent) : QWidget(parent) {}
 
 void SimulationWidget::paintEvent(QPaintEvent *) {
     if (not engine_) {
@@ -26,20 +17,21 @@ void SimulationWidget::paintEvent(QPaintEvent *) {
 
     painter->translate(width() / 2, height() / 2);
 
+    auto engine_pts = engine_->points();
+    scale(engine_pts.back());
+
+    draw_cells(painter);
+
     draw_ship(painter);
 
     painter->setBrush(Qt::black);
     painter->setPen(QPen(Qt::black, 4));
 
-    auto engine_pts = engine_->points();
-    scale(engine_pts.back());
     std::vector<QPointF> pts;
     pts.reserve(engine_pts.size());
     for (auto &p: engine_pts) {
         pts.emplace_back(p.x() * scale_, p.y() * scale_);
     }
-
-    draw_cells(painter);
 
     painter->translate(-pts.back().x(), -pts.back().y());
     painter->drawPolyline(pts.data(), pts.size());
@@ -92,7 +84,13 @@ void SimulationWidget::draw_ship(const std::unique_ptr<QPainter> &painter) const
 }
 
 void SimulationWidget::draw_cells(const std::unique_ptr<QPainter> &painter) const {
-
+    painter->setPen(QPen(Qt::lightGray, 1));
+    for (double x = (-width() / 2); x < (width() / 2); x += scale_ * 10) {
+        painter->drawLine(x, 0, x, (height() / 2));
+    }
+    for (double y = 0; y < height(); y += scale_ * 10) {
+        painter->drawLine((-width() / 2), y, (width() / 2), y);
+    }
 }
 
 void SimulationWidget::draw_uv(const std::unique_ptr<QPainter> &painter) const {
